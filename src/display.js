@@ -18,16 +18,18 @@ var display = {
 				//todo show in display
 				break;
 			case "ArrayDeclarator":
-				context[item.name] = [];
+				this.context[item.name] = [];
+				console.log("show new array " + item.name + " in display");
 				for (var index in item.elements) {
 					switch (item.elements[index].type) {
 						case "Literal" :
 							this.context[item.name][index] = item.elements[index].value;
-							console.log("show anonymous literal in display as value " + item.elements[index].value);
+							console.log("show anonymous literal in display as value " + item.elements[index].value + " as part of " + item.name);
 							//show in display
 							break;
 						default :
-							//pass back into parser???
+							this.context[item.name][index] = eval(escodegen.generate(item.elements[index]));
+							console.log("show eval'd value in display as value " + this.context[item.name][index] + " as part of " + item.name);
 							break;
 					}
 				}

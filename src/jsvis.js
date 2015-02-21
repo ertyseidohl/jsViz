@@ -32,7 +32,7 @@ var parse = function(code) {
               data.push({
                 name: node.id.name,
                 type : "ArrayDeclarator",
-                elements: escodegen.generate(node.init.elements)
+                elements: node.init.elements
               });
             break;
           }
