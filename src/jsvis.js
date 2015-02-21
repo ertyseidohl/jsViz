@@ -17,13 +17,13 @@ var parse = function(code) {
   var data = [];
   estraverse.traverse(ast, {
     enter: function(node, parent) {
-      // console.log(node);
+      // console.log(node.type);
       switch(node.type) {
         case 'AssignmentExpression':
           data.push({
             type: 'AssignmentExpression',
             left: node.left.name,
-            right: eval(escodegen.generate(node.right))
+            right: node.right
           })
           break;
         case 'VariableDeclarator':
@@ -36,6 +36,13 @@ var parse = function(code) {
                   value: node.init.value
                 });
               break;
+              case 'BinaryExpression':
+                data.push({
+                  name: node.id.name,
+                  type: "BinaryDeclarator",
+                  value : node.init
+                });
+                break;
               case 'ArrayExpression':
                 data.push({
                   name: node.id.name,
@@ -59,6 +66,12 @@ var parse = function(code) {
             body : escodegen.generate(node.body),
             update : escodegen.generate(node.update)
           });
+        case 'WhileStatement':
+          data.push({
+            type: node.type,
+            test: node.test,
+            body: node.body
+          })
         break;
       }
     }
