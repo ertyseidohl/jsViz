@@ -12,6 +12,10 @@ var display = {
 	},
 	run : function(item) {
 		switch(item.type) {
+			case 'AssignmentExpression' :
+				this.context[item.left] = item.right;
+				console.log("update literal " + item.left + " to have value " + item.right);
+				break;
 			case "LiteralDeclarator":
 				this.context[item.name] = item.value;
 				console.log("show literal " + item.name + " in display as value " + item.value);
@@ -37,6 +41,12 @@ var display = {
 			case "ForStatement":
 
 				break;
+			case "WhileStatement":
+
+				break;
+			case "UndefinedDeclarator":
+				this.context[item.name] = undefined;
+				console.log("show literal " + item.name + " in display as undefined");
 		}
 	},
 	render : function() {
