@@ -2,19 +2,20 @@ var readEditor = ace.edit("read-editor");
 readEditor.setTheme("ace/theme/monokai");
 readEditor.getSession().setMode("ace/mode/javascript");
 readEditor.setReadOnly(true);
+var readDoc = readEditor.getSession().getDocument();
 
 var writeEditor = ace.edit("write-editor");
 writeEditor.setTheme("ace/theme/monokai");
 writeEditor.getSession().setMode("ace/mode/javascript");
-var aceDoc = writeEditor.getSession().getDocument();
+var writeDoc = writeEditor.getSession().getDocument();
 var timeOutHandle;
 
-var timeOutCallback = function(code) {
+var parse = function(code) {
   var ast = esprima.parse(code);
   estraverse.traverse(ast, {
     enter: function(node, parent) {
 
-      console.log(node);
+      // console.log(node.type);
       switch(node.type) {
         case 'VariableDeclarator':
           switch(node.id.type) {
@@ -25,19 +26,23 @@ var timeOutCallback = function(code) {
             case 'ArrayExpression':
               var elements = node.elements;
             break;
+
           }
+        break;
+        case 'ForStatement':
+          console.log(escodegen.generate(node));
         break;
       }
     }
   });
 };
 
-aceDoc.addEventListener('change', function() {
-  if (timeOutHandle) {
-    clearTimeout(timeOutHandle);
-  }
-  timeOutHandle = setTimeout(function(){
-    timeOutCallback(aceDoc.getValue());
-  }, 1000);
-
+var run = document.getElementById('run');
+run.addEventListener('click', function() {
+  var runCode = writeDoc.getValue();
+  writeDoc.setValue('');
+  readDoc.setValue(readDoc.getValue() + '\n\n' + runCode);
+  var data = parse(runCode);
+  // display.append(data);
+  // display.render();
 });
