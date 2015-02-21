@@ -3,9 +3,23 @@
 <head>
   <title>JS Vis</title>
   <style type="text/css" media="screen">
-    #editor {
+    #run {
+      position: absolute;
+      width: 300px;
+      height: 20px;
+      top: 0;
+      left: 0;
+    }
+    #write-editor {
         position: absolute;
-        top: 0;
+        top: 20px;
+        right: 50%;
+        bottom: 80%;
+        left: 0;
+    }
+    #read-editor {
+        position: absolute;
+        top: 20%;
         right: 50%;
         bottom: 0;
         left: 0;
@@ -13,7 +27,9 @@
   </style>
 </head>
 <body>
-<div id="editor"></div>
+<button id="run">RUN</button>
+<div id="write-editor"></div>
+<div id="read-editor"></div>
 <script src="bower_components/ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript" src="bower_components/esprima/esprima.js"></script>
 <script type="text/javascript" src="src/estraverse.js"></script>
