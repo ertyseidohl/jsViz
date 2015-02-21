@@ -24,12 +24,20 @@
         bottom: 0;
         left: 0;
     }
+    #display {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      right: 0;
+      bottom: 0;
+    }
   </style>
 </head>
 <body>
 <button id="run">RUN</button>
 <div id="write-editor"></div>
 <div id="read-editor"></div>
+<div id="display"></div>
 <script src="bower_components/ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript" src="bower_components/esprima/esprima.js"></script>
 <script type="text/javascript" src="src/estraverse.js"></script>

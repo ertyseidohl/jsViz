@@ -10,31 +10,46 @@ writeEditor.getSession().setMode("ace/mode/javascript");
 var writeDoc = writeEditor.getSession().getDocument();
 var timeOutHandle;
 
+var displayEditor = display.init("display");
+
 var parse = function(code) {
   var ast = esprima.parse(code);
+  var data = [];
   estraverse.traverse(ast, {
     enter: function(node, parent) {
-
-      // console.log(node.type);
+      // console.log(node);
       switch(node.type) {
         case 'VariableDeclarator':
-          switch(node.id.type) {
+          switch(node.init.type) {
             case 'Literal':
-              var name = node.name;
-              var val = node.value;
+              data.push({
+                name: node.id.name,
+                type : "LiteralDeclarator",
+                value: node.init.value
+              });
             break;
             case 'ArrayExpression':
-              var elements = node.elements;
+              data.push({
+                name: node.id.name,
+                type : "ArrayDeclarator",
+                elements: escodegen.generate(node.init.elements)
+              });
             break;
-
           }
         break;
         case 'ForStatement':
-          console.log(escodegen.generate(node));
+          data.push({
+            type : node.type,
+            init : escodegen.generate(node.init),
+            test : escodegen.generate(node.test),
+            body : escodegen.generate(node.body),
+            update : escodegen.generate(node.update)
+          });
         break;
       }
     }
   });
+  return data;
 };
 
 var run = document.getElementById('run');
@@ -43,6 +58,6 @@ run.addEventListener('click', function() {
   writeDoc.setValue('');
   readDoc.setValue(readDoc.getValue() + '\n\n' + runCode);
   var data = parse(runCode);
-  // display.append(data);
-  // display.render();
+  displayEditor.append(data);
+  displayEditor.render();
 });
