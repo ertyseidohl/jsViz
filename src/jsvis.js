@@ -19,22 +19,36 @@ var parse = function(code) {
     enter: function(node, parent) {
       // console.log(node);
       switch(node.type) {
+        case 'AssignmentExpression':
+          data.push({
+            type: 'AssignmentExpression',
+            left: node.left.name,
+            right: eval(escodegen.generate(node.right))
+          })
+          break;
         case 'VariableDeclarator':
-          switch(node.init.type) {
-            case 'Literal':
-              data.push({
-                name: node.id.name,
-                type : "LiteralDeclarator",
-                value: node.init.value
-              });
-            break;
-            case 'ArrayExpression':
-              data.push({
-                name: node.id.name,
-                type : "ArrayDeclarator",
-                elements: node.init.elements
-              });
-            break;
+          if (node.init) {
+            switch(node.init.type) {
+              case 'Literal':
+                data.push({
+                  name: node.id.name,
+                  type : "LiteralDeclarator",
+                  value: node.init.value
+                });
+              break;
+              case 'ArrayExpression':
+                data.push({
+                  name: node.id.name,
+                  type : "ArrayDeclarator",
+                  elements: node.init.elements
+                });
+              break;
+            }
+          } else {
+            data.push({
+              name: node.id.name,
+              type : "UndefinedDeclarator",
+            });
           }
         break;
         case 'ForStatement':
@@ -55,6 +69,9 @@ var parse = function(code) {
 var run = document.getElementById('run');
 run.addEventListener('click', function() {
   var runCode = writeDoc.getValue();
+  if (runCode.length === 0) {
+    return;
+  }
   writeDoc.setValue('');
   readDoc.setValue(readDoc.getValue() + '\n\n' + runCode);
   var data = parse(runCode);
