@@ -1,0 +1,70 @@
+#run {
+  position: absolute;
+  width: 300px;
+  height: 20px;
+  top: 0;
+  left: 0;
+}
+
+#write-editor {
+    position: absolute;
+    top: 20px;
+    right: 50%;
+    bottom: 80%;
+    left: 0;
+}
+
+#read-editor {
+    position: absolute;
+    top: 20%;
+    right: 50%;
+    bottom: 0;
+    left: 0;
+}
+
+#display {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  right: 0;
+  bottom: 0;
+}
+.number{
+ background-color: blue;
+ padding: 10px 10px;
+ border-radius: 10px;
+}
+.array {
+ background-color: purple;
+ padding: 10px 10px;
+ border-radius: 10px;
+
+}
+.string{
+ background-color: green;
+ padding: 10px 10px;
+ border-radius: 10px;
+}
+.object{
+background-color: orange;
+padding: 10px 10px;
+border-radius: 10px;
+}
+.variableType{
+font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+color: white;
+}
+.variableName{
+font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+color: white;
+}
+.variableValue {
+    font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+    padding: 2px 2px;
+    border-style: solid;
+    border-width: 2px;
+    background-color: white;
+    position: relative;
+    float: right;
+    transform: translateY(-125%);
+}
